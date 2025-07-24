@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "../../../../go/src/github.com/gautamgadipudi/todo"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}

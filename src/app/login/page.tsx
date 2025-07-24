@@ -19,9 +19,15 @@ export default function LoginPage() {
       const res = await login(email, password);
       localStorage.setItem("token", res.token);
       router.replace("/board");
-    } catch (err) {
-      if (typeof err === 'object' && err && 'response' in err && (err as any).response?.data?.error) {
-        setError((err as any).response.data.error);
+    } catch (err: unknown) {
+      if (
+        typeof err === 'object' &&
+        err !== null &&
+        'response' in err &&
+        typeof (err as { response?: { data?: { error?: string } } }).response === 'object' &&
+        (err as { response?: { data?: { error?: string } } }).response?.data?.error
+      ) {
+        setError((err as { response: { data: { error: string } } }).response.data.error);
       } else {
         setError("Login failed");
       }
