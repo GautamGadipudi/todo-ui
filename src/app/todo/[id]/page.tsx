@@ -19,11 +19,23 @@ function getLocalDateString(dateStr: string) {
   return new Date(Number(yyyy), Number(mm) - 1, Number(dd)).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
+// Add Todo type
+interface Todo {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  due_date?: string;
+  completed?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export default function TodoDetailsPage() {
   const router = useRouter();
   const params = useParams();
   const id = typeof params.id === "string" ? params.id : Array.isArray(params.id) ? params.id[0] : "";
-  const [todo, setTodo] = useState<any>(null);
+  const [todo, setTodo] = useState<Todo | null>(null);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [statusMenuAnchor, setStatusMenuAnchor] = useState<null | HTMLElement>(null);
@@ -104,8 +116,8 @@ export default function TodoDetailsPage() {
             <Chip label={`Due: ${typeof window !== 'undefined' ? getLocalDateString(todo.due_date) : todo.due_date.split('T')[0]}`} color="warning" />
           )}
         </Stack>
-        <Typography variant="body2" color="text.secondary">Created: {format(new Date(todo.created_at), 'MMM d, yyyy')}</Typography>
-        <Typography variant="body2" color="text.secondary">Updated: {format(new Date(todo.updated_at), 'MMM d, yyyy')}</Typography>
+        <Typography variant="body2" color="text.secondary">Created: {format(new Date(todo.created_at ?? ''), 'MMM d, yyyy')}</Typography>
+        <Typography variant="body2" color="text.secondary">Updated: {format(new Date(todo.updated_at ?? ''), 'MMM d, yyyy')}</Typography>
       </Paper>
       <TodoModal
         open={modalOpen}

@@ -2,15 +2,26 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getTodos, deleteTodo, createTodo, updateTodo, updateTodoStatus } from "@/lib/api";
-import { Box, Typography, Grid, IconButton, Menu, MenuItem, Paper, Tooltip, Snackbar, Alert, Button } from "@mui/material";
+import { Box, Typography, IconButton, Menu, MenuItem, Paper, Tooltip, Snackbar, Alert } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import LogoutIcon from "@mui/icons-material/Logout";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { format } from "date-fns";
 import TodoModal from "@/components/TodoModal";
+
+// Add Todo type
+interface Todo {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  due_date?: string;
+  completed?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
 
 const STATUSES = ["Created", "Groomed", "In Progress", "Resolved", "Completed"];
 
@@ -70,13 +81,13 @@ function getDueDateDisplay(dueDateStr: string) {
 
 export default function BoardPage() {
   const router = useRouter();
-  const [todos, setTodos] = useState<any[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuTodoId, setMenuTodoId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
-  const [updateInitialData, setUpdateInitialData] = useState<any>(null);
+  const [updateInitialData, setUpdateInitialData] = useState<Partial<Todo> | undefined>(undefined);
   const [actionLoading, setActionLoading] = useState(false);
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: "success" | "error" }>({ open: false, message: "", severity: "success" });
 
