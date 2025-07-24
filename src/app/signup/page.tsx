@@ -19,8 +19,12 @@ export default function SignupPage() {
       const res = await register(email, password);
       localStorage.setItem("token", res.token);
       router.replace("/board");
-    } catch (err: any) {
-      setError(err?.response?.data?.error || "Signup failed");
+    } catch (err) {
+      if (typeof err === 'object' && err && 'response' in err && (err as any).response?.data?.error) {
+        setError((err as any).response.data.error);
+      } else {
+        setError("Signup failed");
+      }
     } finally {
       setLoading(false);
     }
