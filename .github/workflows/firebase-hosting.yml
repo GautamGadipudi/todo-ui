@@ -31,9 +31,9 @@ jobs:
 
       - name: Authenticate to Firebase
         env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_SERVICE_ACCOUNT_GO_TODO_UI: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GO_TODO_UI }}
         run: |
-          echo "$FIREBASE_SERVICE_ACCOUNT" > "${HOME}/firebase-key.json"
+          echo "$FIREBASE_SERVICE_ACCOUNT_GO_TODO_UI" > "${HOME}/firebase-key.json"
           export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/firebase-key.json"
 
       - name: Deploy to Firebase Hosting
